@@ -19,22 +19,17 @@ Follow these steps to set up the project on your local machine:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/repository-name.git
+    git clone https://github.com/Houssam-11/data-analyzer-webapp.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd repository-name
+    cd WebStatVis
     ```
-3. Create a virtual environment and activate it:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-4. Install the required packages:
+3. Install the required packages:
     ```bash
     pip install -r requirements.txt
     ```
-5. Apply migrations:
+4. Apply migrations:
     ```bash
     python manage.py migrate
     ```
@@ -48,7 +43,7 @@ Follow these steps to set up the project on your local machine:
 1. Navigate to the homepage:
     - Open your browser and go to `http://127.0.0.1:8000/`.
 2. Upload your CSV file:
-    - Click **"Go to Upload Page"**, select your CSV file, and upload it.
+    - Click **"Get started"**, select your CSV file, and upload it.
 3. Explore your data:
     - Use the options to preview data, access rows/columns, or perform statistical analysis.
 4. Visualize your data:
@@ -78,7 +73,7 @@ Follow these steps to set up the project on your local machine:
 repository-name/
     ├── analysis/
     │   ├── migrations/           # Database migration files
-    │   ├── static/               # Static files (CSS, JS, images)
+    │   ├── static/               # Static files (CSS, images)
     │   │   └── analysis/
     │   │       ├── styles.css    # Main stylesheet
     │   │       └── favicon.ico   # Website icon
@@ -86,12 +81,12 @@ repository-name/
     │   │   ├── homepage.html
     │   │   ├── upload.html
     │   │   └── visualization.html
-    │   ├── __init__.py           # App initialization file
-    │   ├── admin.py              # Admin configurations
+    │   ├── __init__.py           
+    │   ├── admin.py              
     │   ├── apps.py               # App configurations
     │   ├── forms.py              # Django forms
     │   ├── models.py             # Database models
-    │   ├── tests.py              # Unit tests
+    │   ├── tests.py              
     │   ├── urls.py               # App-specific routes
     │   └── views.py              # App logic and views
     ├── data_final_Project/       # Project-level settings and routes
