@@ -1,4 +1,4 @@
-![Homepage interface](WebStatVis\analysis\static\analysis\homepage.png)
+![Homepage interface](WebStatVis/analysis/static/analysis/homepage.png)
 
 # 📊 Data Visualization Dashboard
 
