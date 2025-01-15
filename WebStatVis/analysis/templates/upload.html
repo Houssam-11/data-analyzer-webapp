@@ -42,8 +42,13 @@
         <input type="number" name="row_index" id="row_index">
         <button type="submit" name="action" value="get_row">Get Row 🎯</button>
         <br><br>
+
         <label for="column_name">Enter Column Name:</label>
-        <input type="text" name="column_name" id="column_name">
+          <select name="column_name" id="column_name">
+              {% for column in all_columns %}
+                  <option value="{{ column }}">{{ column }}</option>
+              {% endfor %}
+          </select>
         <button type="submit" name="action" value="get_column">Get Column 🎯</button>
     </form>
 
@@ -63,7 +68,11 @@
     <form method="post">
         {% csrf_token %}
         <label for="stat_column">Select Column:</label>
-        <input type="text" name="stat_column" id="stat_column">
+          <select name="stat_column" id="stat_column">
+            {% for column in numeric_columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+          </select>
         <button type="submit" name="action" value="compute_stats">Compute Statistics 🔢</button>
     </form>
 
@@ -99,7 +108,26 @@
         </button>
     </a>
 
+    <script>
+      // Save scroll position before the page unloads
+      window.addEventListener("beforeunload", () => {
+        sessionStorage.setItem("scrollPosition", window.scrollY);
+      });
 
+      // Restore scroll position when the page loads
+      window.addEventListener("load", () => {
+        const scrollPosition = sessionStorage.getItem("scrollPosition");
+        if (scrollPosition) {
+          window.scrollTo(0, parseInt(scrollPosition, 10));
+        }
+      });
+
+      // Save scroll position before form submission
+      document.querySelector("form").addEventListener("submit", () => {
+        sessionStorage.setItem("scrollPosition", window.scrollY);
+      });
+    </script>
+  
 
 <style>
     /* From Uiverse.io by kleenpulse */ 

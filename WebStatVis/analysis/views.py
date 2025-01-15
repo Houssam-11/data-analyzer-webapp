@@ -31,6 +31,8 @@ def upload_file(request):
     current_file = None  # For storing the name of the currently uploaded file
     data_len = None  # to displaying the length of the uploaded data
     stats = None # For storing the summary statistics of the data
+    all_columns = None # For storing all the columns in the DataFrame
+    numeric_columns = None # For storing the numeric columns in the DataFrame
     
     
     # Initialize the form to avoid unbound variable issues
@@ -43,6 +45,9 @@ def upload_file(request):
             df = pd.read_json(request.session['dataframe'])
             data_preview = df.head().to_html()
             data_len = len(df)
+            all_columns = df.columns.tolist()
+            numeric_columns = df.select_dtypes(include='number').columns.tolist()
+
 
 
 
@@ -101,6 +106,9 @@ def upload_file(request):
                     # Store the DataFrame as JSON in the session
                     request.session['dataframe'] = df.to_json()
                     request.session['current_file'] = uploaded_file.name  # Store the file name
+                    request.session['all_columns'] = df.columns.tolist()
+                    request.session['numeric_columns'] = df.select_dtypes(include='number').columns.tolist()
+
                     current_file = uploaded_file.name  # Update the current file
                     data_preview = df.head().to_html()  # Convert the first 5 rows to HTML for preview
                     data_len = len(df) # Get the total number of rows
@@ -119,6 +127,8 @@ def upload_file(request):
         'row_data': row_data,
         'column_data': column_data,
         'stats': stats,
+        'all_columns': all_columns,
+        'numeric_columns': numeric_columns,
     })
  
 
@@ -241,13 +251,18 @@ class DataVisualizer:
 def visualize(request):
     visualization = None
     vis_error = None
+    all_columns = None # For storing all the columns in the DataFrame
+
 
     if 'dataframe' in request.session:
         df = pd.read_json(request.session['dataframe'])
+        all_columns = request.session.get('all_columns', [])
+
 
         if request.method == 'POST':
             vis_column = request.POST.get('vis_column')
             vis_type = request.POST.get('vis_type')
+            
 
             if vis_column in df.columns:
                 try:
@@ -264,6 +279,7 @@ def visualize(request):
     return render(request, 'visualization.html', {
         'visualization': visualization,
         'vis_error': vis_error,
+        'all_columns': all_columns,
     })
 
 

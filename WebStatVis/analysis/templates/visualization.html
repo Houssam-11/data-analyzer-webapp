@@ -14,7 +14,12 @@
     <form method="post">
         {% csrf_token %}
         <label for="vis_column">Select Column for Visualization:</label>
-        <input type="text" name="vis_column" id="vis_column">
+          <select name="vis_column" id="vis_column">
+            {% for column in all_columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+          </select>
+
         <br><br>
         <label for="vis_type">Select Visualization Type:</label>
         <select name="vis_type" id="vis_type">
@@ -22,26 +27,47 @@
             <option value="scatter">Scatter Plot</option>
             <option value="bar">Bar Chart</option>
             <option value="box">Box Plot</option>
-        </select>
-        <br><br>
-        <button type="submit" name="action" value="visualize">Generate Visualization 🚀</button>
-    </form>
+          </select>
+          <br><br>
+          <button type="submit" name="action" value="visualize">Generate Visualization 🚀</button>
+        </form>
 
-    {% if vis_error %}
-        <h3 style="color: red;">{{ vis_error }}</h3>
-    {% endif %}
+        {% if vis_error %}
+          <h3 style="color: red;">{{ vis_error }}</h3>
+        {% endif %}
 
-    {% if visualization %}
-        <h3>Visualization</h3>
-        <div>{{ visualization|safe }}</div>
-    {% endif %}
+        {% if visualization %}
+          <h3>Visualization</h3>
+          <div>{{ visualization|safe }}</div>
+        {% endif %}
 
-    <br>
-    <a href="/upload/">
-        <button type="button" id="btn" class="top-right-button"style="position: absolute; top: 20px; right: 20px;">
+        <br>
+        <a href="/upload/">
+          <button type="button" id="btn" class="top-right-button" style="position: absolute; top: 20px; right: 20px;">
             Back to Upload Page 📥
-        </button>
-    </a>
+          </button>
+        </a>
+
+        <script>
+          // Save scroll position before the page unloads
+          window.addEventListener("beforeunload", () => {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+          });
+
+          // Restore scroll position when the page loads
+          window.addEventListener("load", () => {
+            const scrollPosition = sessionStorage.getItem("scrollPosition");
+            if (scrollPosition) {
+              window.scrollTo(0, parseInt(scrollPosition, 10));
+            }
+          });
+
+          // Save scroll position before form submission
+          document.querySelector("form").addEventListener("submit", () => {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+          });
+        </script>
+  
 
     <style>
             /* From Uiverse.io by kleenpulse */ 
