@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Data Visualization</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'analysis/styles.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'analysis/favicon.ico' %}">
+
+</head>
+<body>
+    <h1>Data Visualization</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="vis_column">Select Column for Visualization:</label>
+          <select name="vis_column" id="vis_column">
+            {% for column in all_columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+          </select>
+
+        <br><br>
+        <label for="vis_type">Select Visualization Type:</label>
+        <select name="vis_type" id="vis_type">
+            <option value="histogram">Histogram</option>
+            <option value="scatter">Scatter Plot</option>
+            <option value="bar">Bar Chart</option>
+            <option value="box">Box Plot</option>
+          </select>
+          <br><br>
+          <button type="submit" name="action" value="visualize">Generate Visualization 🚀</button>
+        </form>
+
+        {% if vis_error %}
+          <h3 style="color: red;">{{ vis_error }}</h3>
+        {% endif %}
+
+        {% if visualization %}
+          <h3>Visualization</h3>
+          <div>{{ visualization|safe }}</div>
+        {% endif %}
+
+        <br>
+        <a href="/upload/">
+          <button type="button" id="btn" class="top-right-button" style="position: absolute; top: 20px; right: 20px;">
+            Back to Upload Page 📥
+          </button>
+        </a>
+
+        <script>
+          // Save scroll position before the page unloads
+          window.addEventListener("beforeunload", () => {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+          });
+
+          // Restore scroll position when the page loads
+          window.addEventListener("load", () => {
+            const scrollPosition = sessionStorage.getItem("scrollPosition");
+            if (scrollPosition) {
+              window.scrollTo(0, parseInt(scrollPosition, 10));
+            }
+          });
+
+          // Save scroll position before form submission
+          document.querySelector("form").addEventListener("submit", () => {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+          });
+        </script>
+  
+
+    <style>
+            /* From Uiverse.io by kleenpulse */ 
+#btn {
+  --border-color: linear-gradient(-45deg, #ffae00, #7e03aa, #00fffb);
+  --border-width: 0.125em;
+  --curve-size: 0.5em;
+  --blur: 30px;
+  --bg: #080312;
+  --color: #afffff;
+  color: var(--color);
+  cursor: pointer;
+  /* use position: relative; so that BG is only for .btn */
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  place-content: center;
+  padding: 0.5em 1.5em;
+  font-size: 17px;
+  border: 0;
+  text-transform: uppercase;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.6);
+  clip-path: polygon(
+    /* Top-left */ 0% var(--curve-size),
+    var(--curve-size) 0,
+    /* top-right */ 100% 0,
+    100% calc(100% - var(--curve-size)),
+    /* bottom-right 1 */ calc(100% - var(--curve-size)) 100%,
+    /* bottom-right 2 */ 0 100%
+  );
+  transition: color 250ms;
+}
+
+#btn::after,
+#btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+#btn::before {
+  background: var(--border-color);
+  background-size: 300% 300%;
+  animation: move-bg7234 5s ease infinite;
+  z-index: -2;
+}
+
+@keyframes move-bg7234 {
+  0% {
+    background-position: 31% 0%;
+  }
+
+  50% {
+    background-position: 70% 100%;
+  }
+
+  100% {
+    background-position: 31% 0%;
+  }
+}
+
+#btn::after {
+  background: var(--bg);
+  z-index: -1;
+  clip-path: polygon(
+    /* Top-left */ var(--border-width)
+      calc(var(--curve-size) + var(--border-width) * 0.5),
+    calc(var(--curve-size) + var(--border-width) * 0.5) var(--border-width),
+    /* top-right */ calc(100% - var(--border-width)) var(--border-width),
+    calc(100% - var(--border-width))
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+    /* bottom-right 1 */
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
+      calc(100% - var(--border-width)),
+    /* bottom-right 2 */ var(--border-width) calc(100% - var(--border-width))
+  );
+  transition: clip-path 500ms;
+}
+
+#btn:where(:hover, :focus)::after {
+  clip-path: polygon(
+    /* Top-left */ calc(100% - var(--border-width))
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+    calc(100% - var(--border-width)) var(--border-width),
+    /* top-right */ calc(100% - var(--border-width)) var(--border-width),
+    calc(100% - var(--border-width))
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5)),
+    /* bottom-right 1 */
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
+      calc(100% - var(--border-width)),
+    /* bottom-right 2 */
+      calc(100% - calc(var(--curve-size) + var(--border-width) * 0.5))
+      calc(100% - var(--border-width))
+  );
+  transition: 200ms;
+}
+
+#btn:where(:hover, :focus) {
+  color: #fff;
+}
+
+    </style>
+</body>
+</html>
