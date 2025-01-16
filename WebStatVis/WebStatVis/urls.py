@@ -42,5 +42,5 @@ urlpatterns = [
  and sets up the ability to serve media files from the specified directory during development.
 '''
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # ensures media files are served during development.
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # ensures media files are served during development.
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # ensures media files are served during development.
+#urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # ensures media files are served during development.
