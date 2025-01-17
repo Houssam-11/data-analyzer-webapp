@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-o*q6eqae=_iz1v=v0+yifab7v)+!-!bi1_eo8kpuz**^_=v*%j
 DEBUG = True
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://data-analyzer-l1gx.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
